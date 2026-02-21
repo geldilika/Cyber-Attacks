@@ -20,9 +20,8 @@ def stream_decrypt(cipher, k, i):
         
     return result
 
-k = 24
-
-for i in range(26):
+for k in range(26):
+    for i in range(26):
         pt = stream_decrypt(cipher, k, i)
         
         print("k =", chr(k+97), "i =", chr(i+97))

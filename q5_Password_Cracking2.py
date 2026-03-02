@@ -1,9 +1,8 @@
 import hashlib
 from itertools import product
-import string
 
-target_hash = "3c0f5ed09f04ad287d8c9a4868e1cc0846b8bc6e04790f4308d3b1d2e4d29d24"
-salt = "yUVyqj7EeM9GdUgntmfikXHV"
+target_hash = "fa533f66a3023914f16291b7ae8e975fabaa9a7344f85d66408db791cae9d3dd"
+salt = "17U5atUk29ZQtUvLlR11Xvwc"
 
 names = [
     "Luna","Bella","Milo","Teddy","Daisy","Max","Poppy","Coco","Buddy","Rosie",
@@ -14,38 +13,39 @@ names = [
 ]
 
 sub = {
-    "o": ["o", "0", "*"], "O": ["O", "0", "*"],
-    "i": ["i", "1", "!"], "I": ["I", "1", "!"],
-    "l": ["l", "1"],      "L": ["L", "1"],
-    "a": ["a", "4", "@", "&"], "A": ["A", "4", "@", "&"],
-    "e": ["e", "3"],      "E": ["E", "3"],
-    "s": ["s", "$", "5"], "S": ["S", "$", "5"],
+    "o": ["o", "0", "*"], 
+    "O": ["O", "0", "*"],
+    "i": ["i", "1", "!"],
+    "I": ["I", "1", "!"],
+    "l": ["l", "1"],
+    "L": ["L", "1"],
+    "a": ["a", "4", "@", "&"],
+    "A": ["A", "4", "@", "&"],
+    "e": ["e", "3"],
+    "E": ["E", "3"],
+    "s": ["s", "$", "5"],
+    "S": ["S", "$", "5"],
 }
 
 def variants(word):
-    pools = [sub.get(ch, [ch]) for ch in word]
-    for combo in product(*pools):
+    choices = []
+    for ch in word:
+        choices.append(sub.get(ch, [ch]))
+    for combo in product(*choices):
         yield "".join(combo)
 
-def sha256_hex(s: str) -> str:
-    return hashlib.sha256(s.encode("utf-8")).hexdigest()
-
-checked = 0
+def sha256_hex(x):
+    return hashlib.sha256(x.encode("utf-8")).hexdigest()
 
 for dog in names:
-    # Try common case forms (this is what your code was missing)
     for base_word in {dog, dog.lower(), dog.upper()}:
         for base in variants(base_word):
             for d in range(100):
-                pwd = base + f"{d:02d}"
-                checked += 1
-
-                # per spec: hash(password + salt)
+                pwd = base + str(d).zfill(2)
                 if sha256_hex(pwd + salt) == target_hash:
                     print("FOUND!")
-                    print("Dog name:", dog)
                     print("Password:", pwd)
-                    print("Checked:", checked)
+                    print("Dog name:", dog)
                     raise SystemExit
 
-print("No match found. Checked:", checked)
+print("No match found.")

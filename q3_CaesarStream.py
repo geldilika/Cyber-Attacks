@@ -1,4 +1,4 @@
-cipher = "KpnwfdgjhncsypfdikirinjaflwalxrpabsxzkbnsqbfdrjlbsykvfdsamxotvmrximcykchfyajvgkbzhjuxjycrpartuTpevkituJvlbdmv"
+cipher = "KvtcljmpntiyevljoqoxotpglrcgrdxvghydfqhtywhljxprhyeqbljygsduzbsxdosieqinlegpbmqhfnpadpeixvgxzaZbqhwufgVndtven"
 
 def stream_decrypt(cipher, k, i):
     C = []
